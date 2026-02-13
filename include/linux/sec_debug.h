@@ -219,10 +219,10 @@ struct sec_debug_shared_info {
 	struct sec_debug_ksyms ksyms;
 
 	/* reset reason extra info for bigdata */
-	struct sec_debug_panic_extra_info sec_debug_extra_info;
+//	struct sec_debug_panic_extra_info sec_debug_extra_info;
 
 	/* reset reason extra info for bigdata */
-	struct sec_debug_panic_extra_info sec_debug_extra_info_backup;
+//	struct sec_debug_panic_extra_info sec_debug_extra_info_backup;
 
 	/* last 1KB of kernel log */
 	char last_klog[SZ_1K];

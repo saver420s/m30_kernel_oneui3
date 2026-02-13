@@ -138,6 +138,7 @@ enum {
 	Opt_fsync,
 	Opt_test_dummy_encryption,
 	Opt_checkpoint,
+Opt_inlinecrypt,
 	Opt_err,
 };
 
@@ -197,6 +198,7 @@ static match_table_t f2fs_tokens = {
 	{Opt_fsync, "fsync_mode=%s"},
 	{Opt_test_dummy_encryption, "test_dummy_encryption"},
 	{Opt_checkpoint, "checkpoint=%s"},
+{Opt_inlinecrypt, "inlinecrypt"},
 	{Opt_err, NULL},
 };
 
@@ -772,6 +774,8 @@ static int parse_options(struct super_block *sb, char *options)
 			f2fs_msg(sb, KERN_INFO,
 					"Test dummy encryption mount option ignored");
 #endif
+			break;
+		case Opt_inlinecrypt:
 			break;
 		case Opt_checkpoint:
 			name = match_strdup(&args[0]);

@@ -27,6 +27,8 @@
 #include <linux/memblock.h>
 #include <linux/ktime.h>
 #include <linux/printk.h>
+#define ESS_SAVE_STACK_TRACE_CPU(x)
+#define ESS_SAVE_STACK_TRACE(x)
 #include <linux/exynos-ss.h>
 #include <soc/samsung/exynos-condbg.h>
 #include <linux/kallsyms.h>
