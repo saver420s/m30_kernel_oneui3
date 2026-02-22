@@ -1,11 +1,6 @@
-scripts/kconfig/conf  --silentoldconfig Kconfig
   CHK     include/config/kernel.release
   CHK     include/generated/uapi/linux/version.h
   CHK     scripts/mod/devicetable-offsets.h
-ANDROID_VERSION is 990000
-ANDROID_PLATFORM_VERSION is 99
-ANDROID_VERSION is 990000
-ANDROID_PLATFORM_VERSION is 99
   CHK     include/generated/utsrelease.h
   CHK     include/generated/timeconst.h
   CHK     include/generated/bounds.h
@@ -13,15 +8,14 @@ ANDROID_PLATFORM_VERSION is 99
   CALL    scripts/checksyscalls.sh
 make[1]: 'include/generated/vdso-offsets.h' is up to date.
   CHK     include/generated/compile.h
-  GZIP    kernel/config_data.gz
+  CC      drivers/cpufreq/cpufreq_smartmax_eps.o
   CHK     kernel/config_data.h
-  UPD     kernel/config_data.h
-  CC      kernel/configs.o
-  AR      kernel/built-in.o
 ANDROID_VERSION is 990000
 ANDROID_PLATFORM_VERSION is 99
+  AR      drivers/cpufreq/built-in.o
 ANDROID_VERSION is 990000
 ANDROID_PLATFORM_VERSION is 99
+  AR      drivers/built-in.o
   LINK    vmlinux
   GEN     .version
   CHK     include/generated/compile.h
@@ -37,7 +31,7 @@ ANDROID_PLATFORM_VERSION is 99
   SORTEX  vmlinux
   SYSMAP  System.map
   FIPS : Generating hmac of fmp and updating vmlinux... 
-HMAC for "fmp" module is: b'dcca163dd924d03dd8b27620221be6d835f671811bf24d7f665e6e09dbb41a73'
+HMAC for "fmp" module is: b'bbcdf94d96a96fa25a4be7463cf24a387d5c743c2f5625ec87b615b2e6d585e6'
 FIPS integrity procedure has been finished for fmp
   OBJCOPY arch/arm64/boot/Image
   Building modules, stage 2.

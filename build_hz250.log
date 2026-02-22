@@ -1,0 +1,78 @@
+scripts/kconfig/conf  --silentoldconfig Kconfig
+  CHK     include/config/kernel.release
+  CHK     include/generated/uapi/linux/version.h
+  UPD     include/config/kernel.release
+  CHK     include/generated/utsrelease.h
+  UPD     include/generated/utsrelease.h
+  CHK     scripts/mod/devicetable-offsets.h
+ANDROID_VERSION is 990000
+ANDROID_PLATFORM_VERSION is 99
+  CHK     include/generated/timeconst.h
+ANDROID_VERSION is 990000
+ANDROID_PLATFORM_VERSION is 99
+  CHK     include/generated/bounds.h
+  CHK     include/generated/asm-offsets.h
+  CALL    scripts/checksyscalls.sh
+make[1]: 'include/generated/vdso-offsets.h' is up to date.
+  CHK     include/generated/compile.h
+  CC      init/version.o
+  CC      kernel/sys.o
+  CC      drivers/base/firmware_class.o
+  AR      init/built-in.o
+  CC      net/wireguard/main.o
+  CC      net/wireguard/noise.o
+  CC      net/wireguard/device.o
+  CC      net/wireguard/peer.o
+  CC      net/wireguard/timers.o
+  CC      net/wireguard/queueing.o
+  CC      net/wireguard/send.o
+  AR      drivers/base/built-in.o
+  CC      net/wireguard/receive.o
+  CC      net/wireguard/socket.o
+  CC      net/wireguard/peerlookup.o
+  CC      net/wireguard/allowedips.o
+  CC      net/wireguard/ratelimiter.o
+  CC      net/wireguard/cookie.o
+  CC      net/wireguard/netlink.o
+  CC      kernel/trace/trace.o
+  CC      net/wireguard/crypto/zinc/chacha20/chacha20.o
+  CC      net/wireguard/crypto/zinc/poly1305/poly1305.o
+  CC      kernel/module.o
+ANDROID_VERSION is 990000
+ANDROID_PLATFORM_VERSION is 99
+  CC      net/wireguard/crypto/zinc/chacha20poly1305.o
+  CC      net/wireguard/crypto/zinc/blake2s/blake2s.o
+  CC      net/wireguard/crypto/zinc/curve25519/curve25519.o
+ANDROID_VERSION is 990000
+ANDROID_PLATFORM_VERSION is 99
+  GZIP    kernel/config_data.gz
+  AR      drivers/built-in.o
+  AR      net/wireguard/wireguard.o
+  AR      net/wireguard/built-in.o
+  AR      net/built-in.o
+  AR      kernel/trace/built-in.o
+  CHK     kernel/config_data.h
+  AR      kernel/built-in.o
+  LINK    vmlinux
+  GEN     .version
+  CHK     include/generated/compile.h
+  UPD     include/generated/compile.h
+  CC      init/version.o
+  AR      init/built-in.o
+  AR      built-in.o
+  LD      vmlinux.o
+  MODPOST vmlinux.o
+  KSYM    .tmp_kallsyms1.o
+  KSYM    .tmp_kallsyms2.o
+  LD      vmlinux
+  SORTEX  vmlinux
+  SYSMAP  System.map
+  FIPS : Generating hmac of fmp and updating vmlinux... 
+HMAC for "fmp" module is: b'dcca163dd924d03dd8b27620221be6d835f671811bf24d7f665e6e09dbb41a73'
+FIPS integrity procedure has been finished for fmp
+  OBJCOPY arch/arm64/boot/Image
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      drivers/gpu/arm/b_r26p0/tests/kutf/kutf.mod.o
+  GZIP    arch/arm64/boot/Image.gz
+  LD [M]  drivers/gpu/arm/b_r26p0/tests/kutf/kutf.ko
