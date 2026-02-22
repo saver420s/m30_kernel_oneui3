@@ -18,6 +18,7 @@ obj-$(CONFIG_EXYNOS_PMU)	+= exynos-pmu.o
 obj-$(CONFIG_EXYNOS_CHIPID)	+= exynos-chipid.o
 obj-$(CONFIG_EXYNOS_REBOOT)	+= exynos-reboot.o
 obj-$(CONFIG_EXYNOS_PD)		+= exynos-pd.o exynos-pd-dbg.o
+obj-$(CONFIG_STATE_NOTIFIER)	+= state_notifier.o
 obj-$(CONFIG_EXYNOS_RGT)        += exynos-rgt.o
 obj-$(CONFIG_EPX)		+= epx.o
 

@@ -32,6 +32,31 @@ config IOSCHED_CFQ
 
 	  This is the default I/O scheduler.
 
+config IOSCHED_ZEN
+	tristate "Zen I/O scheduler"
+	default y
+
+config IOSCHED_ANXIETY
+	tristate "Anxiety I/O scheduler"
+	default y
+
+config IOSCHED_SIO
+	tristate "Simple I/O scheduler"
+	default y
+
+config IOSCHED_FIOPS
+	tristate "FIOPS I/O scheduler"
+	default y
+
+config IOSCHED_MAPLE
+	tristate "Maple I/O scheduler"
+	default y
+
+config IOSCHED_BFQ
+	tristate "BFQ I/O scheduler"
+	default y
+
+
 config CFQ_GROUP_IOSCHED
 	bool "CFQ Group Scheduling support"
 	depends on IOSCHED_CFQ && BLK_CGROUP
@@ -52,6 +77,11 @@ choice
 	config DEFAULT_CFQ
 		bool "CFQ" if IOSCHED_CFQ=y
 
+	config DEFAULT_ZEN
+		bool "Zen" if IOSCHED_ZEN=y
+	config DEFAULT_BFQ
+		bool "BFQ" if IOSCHED_BFQ=y
+
 	config DEFAULT_NOOP
 		bool "No-op"
 
@@ -62,6 +92,8 @@ config DEFAULT_IOSCHED
 	default "deadline" if DEFAULT_DEADLINE
 	default "cfq" if DEFAULT_CFQ
 	default "noop" if DEFAULT_NOOP
+	default "zen" if DEFAULT_ZEN
+	default "bfq" if DEFAULT_BFQ
 
 endmenu
 

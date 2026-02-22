@@ -1,0 +1,8 @@
+
+config BOEFFLA_WL_BLOCKER
+bool "Boeffla wakelock blocker support"
+depends on PM_WAKELOCKS
+default y
+help
+  Enable support to block wakelocks.
+  Helps to save battery life.

@@ -165,3 +165,17 @@ config ARM_EXYNOS8890_BUS_DEVFREQ
 	  This adds the DEVFREQ driver for Exynos8890 memory and int.
 
 endif # PM_DEVFREQ
+
+config DEVFREQ_BOOST
+bool "Devfreq Boost"
+help
+  Boosts enumerated devfreq devices upon input, and allows for boosting
+  specific devfreq devices on other custom events.
+
+if DEVFREQ_BOOST
+config DEVFREQ_INPUT_BOOST_DURATION_MS
+int "Input boost duration"
+default "100"
+help
+  Input boost duration in milliseconds for all boostable devices.
+endif

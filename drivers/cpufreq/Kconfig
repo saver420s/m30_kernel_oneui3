@@ -138,6 +138,26 @@ config CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
 	  have a look at the help section of that governor. The fallback
 	  governor will be 'performance'.
 
+config CPU_FREQ_DEFAULT_GOV_LIONHEART
+	bool "lionheart"
+	select CPU_FREQ_GOV_LIONHEART
+
+config CPU_FREQ_DEFAULT_GOV_BIOSHOCK
+	bool "BioShock"
+	select CPU_FREQ_GOV_BIOSHOCK
+
+config CPU_FREQ_DEFAULT_GOV_ONDEMANDPLUS
+	bool "ondemandplus"
+	select CPU_FREQ_GOV_ONDEMANDPLUS
+
+config CPU_FREQ_DEFAULT_GOV_BLU_ACTIVE
+	bool "blu_active"
+	select CPU_FREQ_GOV_BLU_ACTIVE
+
+config CPU_FREQ_DEFAULT_GOV_INTELLIACTIVE
+	bool "intelliactive"
+	select CPU_FREQ_GOV_INTELLIACTIVE
+
 endchoice
 
 config CPU_FREQ_GOV_PERFORMANCE
@@ -399,3 +419,54 @@ config QORIQ_CPUFREQ
 
 endif
 endmenu
+
+config CPU_FREQ_GOV_LIONHEART
+tristate "'lionheart' governor"
+help
+  Lionheart conservative-based governor.
+
+config CPU_FREQ_GOV_BIOSHOCK
+tristate "'bioshock' governor"
+depends on CPU_FREQ
+help
+  BioShock - mix of ConservativeX and Lionheart.
+
+config CPU_FREQ_GOV_SMARTMAX
+	tristate "'smartmax' governor"
+	depends on CPU_FREQ
+	help
+	  Smartmax - intelligent governor with touch boost support.
+
+config CPU_FREQ_GOV_SMARTMAX_EPS
+	tristate "'smartmax_eps' governor"
+	depends on CPU_FREQ
+	help
+	  Smartmax EPS - improved version of smartmax.
+
+config CPU_FREQ_GOV_DARKNESS
+	tristate "'darkness' governor"
+	depends on CPU_FREQ
+	help
+	  Darkness - balanced performance and battery governor.
+
+
+config CPU_FREQ_GOV_ONDEMANDPLUS
+tristate "'ondemandplus' governor"
+help
+  Ondemandplus - improved ondemand governor.
+
+config CPU_FREQ_GOV_BLU_ACTIVE
+tristate "'blu_active' governor"
+help
+  Blu_active - interactive based governor.
+
+config CPU_FREQ_GOV_INTELLIACTIVE
+tristate "'intelliactive' governor"
+help
+  Intelliactive - enhanced interactive governor.
+
+config FINGERPRINT_BOOST
+bool "Fingerprint Boost"
+default n
+help
+  Boosts available CPUs to max frequency on fingerprint sensor input.

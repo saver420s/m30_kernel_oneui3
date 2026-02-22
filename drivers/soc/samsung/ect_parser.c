@@ -263,6 +263,12 @@ err_pll_list_allocation:
 	kfree(ect_pll_header);
 	return ret;
 }
+static int always_enable = 1;
+#ifdef CONFIG_BYPASS_CPU_THROTTLING
+static int big_bypass_frequency = 2288000;
+static int little_bypass_frequency = 1690000;
+#endif
+
 
 static int ect_parse_voltage_table(int parser_version, void **address, struct ect_voltage_domain *domain, struct ect_voltage_table *table)
 {
@@ -281,6 +287,7 @@ static int ect_parse_voltage_table(int parser_version, void **address, struct ec
 		table->resume_level_idx = -1;
 
 		table->level_en = NULL;
+		table->level_en = &always_enable;
 	}
 
 	if (parser_version >= 3) {
@@ -558,6 +565,53 @@ static int ect_parse_ap_thermal_function(int parser_version, void *address, stru
 		ect_parse_integer(&address, &range->max_frequency);
 		ect_parse_integer(&address, &range->sw_trip);
 		ect_parse_integer(&address, &range->flag);
+
+		// GPU
+		if (range->max_frequency == 1200000 || range->max_frequency == 1100000)
+			range->max_frequency = 1300000;
+		else if (range->max_frequency == 845000)
+			range->max_frequency = 1001000;
+		else if (range->max_frequency == 676000)
+			range->max_frequency = 845000;
+		else if (range->max_frequency == 450000)
+			range->max_frequency = 545000;
+
+#ifdef CONFIG_BYPASS_CPU_THROTTLING
+		if (range->max_frequency == 2496000 ||
+			range->max_frequency == 2392000 ||
+			range->max_frequency == 2288000 ||
+			range->max_frequency == 2184000 ||
+			range->max_frequency == 2080000 ||
+			range->max_frequency == 1976000 ||
+			range->max_frequency == 1872000 ||
+			range->max_frequency == 1768000 ||
+			range->max_frequency == 1664000 ||
+			range->max_frequency == 1560000 ||
+			range->max_frequency == 728000) {
+				if (range->lower_bound_temperature < 86) {
+					range->max_frequency = big_bypass_frequency;
+				} else if (range->lower_bound_temperature == 86 || range->lower_bound_temperature == 91) {
+					range->max_frequency = 2080000;
+				} else if (range->lower_bound_temperature == 96) {
+					range->max_frequency = 1768000;
+				} else if (range->lower_bound_temperature > 96) {
+					range->max_frequency = 1560000;
+				}
+		} else if (range->max_frequency == 1794000 ||
+		range->max_frequency == 1690000 ||
+		range->max_frequency == 1586000 ||
+		range->max_frequency == 1482000 ||
+		range->max_frequency == 1352000 ||
+		range->max_frequency == 1144000 ||
+		range->max_frequency == 902000 ||
+		range->max_frequency == 208000) {
+			if (range->lower_bound_temperature < 91) {
+				range->max_frequency = little_bypass_frequency;
+			} else if (range->lower_bound_temperature >= 91) {
+				range->max_frequency = 1352000;
+			}
+		}
+#endif
 	}
 
 	return 0;
