@@ -1,82 +1,107 @@
 scripts/kconfig/conf  --silentoldconfig Kconfig
+arch/arm64/Makefile:28: ld does not support --fix-cortex-a53-843419; kernel may be susceptible to erratum
   CHK     include/config/kernel.release
+  WRAP    arch/arm64/include/generated/asm/bug.h
+  WRAP    arch/arm64/include/generated/asm/checksum.h
+  WRAP    arch/arm64/include/generated/asm/bugs.h
+  WRAP    arch/arm64/include/generated/asm/cputime.h
+  WRAP    arch/arm64/include/generated/asm/clkdev.h
+  WRAP    arch/arm64/include/generated/asm/current.h
+  WRAP    arch/arm64/include/generated/asm/delay.h
+  WRAP    arch/arm64/include/generated/asm/div64.h
+  WRAP    arch/arm64/include/generated/asm/dma-contiguous.h
+  WRAP    arch/arm64/include/generated/asm/dma.h
+  WRAP    arch/arm64/include/generated/asm/early_ioremap.h
+  WRAP    arch/arm64/include/generated/asm/emergency-restart.h
+  WRAP    arch/arm64/include/generated/asm/errno.h
+  WRAP    arch/arm64/include/generated/asm/ftrace.h
+  WRAP    arch/arm64/include/generated/asm/hw_irq.h
+  WRAP    arch/arm64/include/generated/asm/ioctl.h
+  WRAP    arch/arm64/include/generated/asm/ioctls.h
+  WRAP    arch/arm64/include/generated/asm/ipcbuf.h
+  WRAP    arch/arm64/include/generated/asm/irq_regs.h
+  WRAP    arch/arm64/include/generated/asm/kdebug.h
+  WRAP    arch/arm64/include/generated/asm/kmap_types.h
+  WRAP    arch/arm64/include/generated/asm/kvm_para.h
+  WRAP    arch/arm64/include/generated/asm/local.h
+  WRAP    arch/arm64/include/generated/asm/local64.h
+  WRAP    arch/arm64/include/generated/asm/mcs_spinlock.h
+  WRAP    arch/arm64/include/generated/asm/mm-arch-hooks.h
+  WRAP    arch/arm64/include/generated/asm/mman.h
+  WRAP    arch/arm64/include/generated/asm/msgbuf.h
+  WRAP    arch/arm64/include/generated/asm/msi.h
+  WRAP    arch/arm64/include/generated/asm/mutex.h
+  WRAP    arch/arm64/include/generated/asm/pci.h
+  WRAP    arch/arm64/include/generated/asm/pci-bridge.h
+  WRAP    arch/arm64/include/generated/asm/poll.h
+  WRAP    arch/arm64/include/generated/asm/preempt.h
+  WRAP    arch/arm64/include/generated/asm/resource.h
+  WRAP    arch/arm64/include/generated/asm/rwsem.h
+  WRAP    arch/arm64/include/generated/asm/sections.h
+  WRAP    arch/arm64/include/generated/asm/segment.h
+  WRAP    arch/arm64/include/generated/asm/sembuf.h
+  WRAP    arch/arm64/include/generated/asm/serial.h
+  WRAP    arch/arm64/include/generated/asm/set_memory.h
+  WRAP    arch/arm64/include/generated/asm/shmbuf.h
+  WRAP    arch/arm64/include/generated/asm/simd.h
+  WRAP    arch/arm64/include/generated/asm/sizes.h
+  WRAP    arch/arm64/include/generated/asm/socket.h
+  WRAP    arch/arm64/include/generated/asm/sockios.h
+  WRAP    arch/arm64/include/generated/asm/swab.h
+  WRAP    arch/arm64/include/generated/asm/switch_to.h
+  WRAP    arch/arm64/include/generated/asm/termbits.h
+  WRAP    arch/arm64/include/generated/asm/termios.h
+  WRAP    arch/arm64/include/generated/asm/topology.h
+  WRAP    arch/arm64/include/generated/asm/trace_clock.h
+  WRAP    arch/arm64/include/generated/asm/types.h
+  WRAP    arch/arm64/include/generated/asm/unaligned.h
+  WRAP    arch/arm64/include/generated/asm/user.h
+  WRAP    arch/arm64/include/generated/asm/vga.h
+  WRAP    arch/arm64/include/generated/asm/xor.h
   CHK     include/generated/uapi/linux/version.h
+  UPD     include/generated/uapi/linux/version.h
+  WRAP    arch/arm64/include/generated/uapi/asm/kvm_para.h
+  HOSTCC  scripts/basic/fixdep
   UPD     include/config/kernel.release
+  HOSTCC  scripts/basic/bin2c
   CHK     include/generated/utsrelease.h
   UPD     include/generated/utsrelease.h
-  CHK     scripts/mod/devicetable-offsets.h
+  HOSTCC  scripts/dtc/dtc.o
+  HOSTCC  scripts/genksyms/genksyms.o
+  SHIPPED scripts/genksyms/parse.tab.c
+  HOSTCC  scripts/dtc/flattree.o
+  CC      scripts/mod/empty.o
+/bin/sh: 1: aarch64-linux-gnu-objdump: not found
+mv: cannot stat 'scripts/mod/.tmp_empty.o': No such file or directory
+make[2]: *** [scripts/Makefile.build:288: scripts/mod/empty.o] Error 1
+make[1]: *** [scripts/Makefile.build:522: scripts/mod] Error 2
+make[1]: *** Waiting for unfinished jobs....
+  HOSTCC  scripts/dtc/fstree.o
 ANDROID_VERSION is 990000
+  SHIPPED scripts/genksyms/keywords.hash.c
+  SHIPPED scripts/genksyms/lex.lex.c
 ANDROID_PLATFORM_VERSION is 99
-  CHK     include/generated/timeconst.h
+  SHIPPED scripts/genksyms/parse.tab.h
+  CC      kernel/bounds.s
+fixdep: error opening depfile: kernel/.bounds.s.d: No such file or directory
+make[1]: *** [Kbuild:20: kernel/bounds.s] Error 2
+make: *** [Makefile:1117: prepare0] Error 2
+make: *** Waiting for unfinished jobs....
+  HOSTCC  scripts/genksyms/parse.tab.o
+  HOSTCC  scripts/dtc/data.o
 ANDROID_VERSION is 990000
+  HOSTCC  scripts/dtc/livetree.o
 ANDROID_PLATFORM_VERSION is 99
-  CHK     include/generated/bounds.h
-  CHK     include/generated/asm-offsets.h
-  CALL    scripts/checksyscalls.sh
-make[1]: 'include/generated/vdso-offsets.h' is up to date.
-  CHK     include/generated/compile.h
-  CC      init/version.o
-  CC      kernel/sys.o
-  CC      drivers/base/firmware_class.o
-  AR      init/built-in.o
-  AR      drivers/cpufreq/built-in.o
-  CC      drivers/devfreq/exynos/exynos-devfreq.o
-  CC      net/wireguard/main.o
-  CC      net/wireguard/noise.o
-  CC      net/wireguard/device.o
-  CC      net/wireguard/peer.o
-  CC      net/wireguard/timers.o
-  AR      drivers/base/built-in.o
-  CC      net/wireguard/queueing.o
-  CC      net/wireguard/send.o
-  CC      net/wireguard/receive.o
-  CC      net/wireguard/socket.o
-  CC      net/wireguard/peerlookup.o
-  CC      kernel/trace/trace.o
-  AR      drivers/devfreq/exynos/built-in.o
-  AR      drivers/devfreq/built-in.o
-  CC      net/wireguard/allowedips.o
-  CC      net/wireguard/ratelimiter.o
-  CC      net/wireguard/cookie.o
-  CC      net/wireguard/netlink.o
-  CC      kernel/module.o
-  CC      net/wireguard/crypto/zinc/chacha20/chacha20.o
-ANDROID_VERSION is 990000
-ANDROID_PLATFORM_VERSION is 99
-  CC      net/wireguard/crypto/zinc/poly1305/poly1305.o
-  GZIP    kernel/config_data.gz
-  CC      net/wireguard/crypto/zinc/chacha20poly1305.o
-  CC      net/wireguard/crypto/zinc/blake2s/blake2s.o
-  CC      net/wireguard/crypto/zinc/curve25519/curve25519.o
-ANDROID_VERSION is 990000
-ANDROID_PLATFORM_VERSION is 99
-  AR      drivers/built-in.o
-  AR      net/wireguard/wireguard.o
-  AR      net/wireguard/built-in.o
-  AR      net/built-in.o
-  AR      kernel/trace/built-in.o
-  CHK     kernel/config_data.h
-  AR      kernel/built-in.o
-  LINK    vmlinux
-  GEN     .version
-  CHK     include/generated/compile.h
-  UPD     include/generated/compile.h
-  CC      init/version.o
-  AR      init/built-in.o
-  AR      built-in.o
-  LD      vmlinux.o
-  MODPOST vmlinux.o
-  KSYM    .tmp_kallsyms1.o
-  KSYM    .tmp_kallsyms2.o
-  LD      vmlinux
-  SORTEX  vmlinux
-  SYSMAP  System.map
-  FIPS : Generating hmac of fmp and updating vmlinux... 
-HMAC for "fmp" module is: b'dcca163dd924d03dd8b27620221be6d835f671811bf24d7f665e6e09dbb41a73'
-FIPS integrity procedure has been finished for fmp
-  OBJCOPY arch/arm64/boot/Image
-  Building modules, stage 2.
-  MODPOST 1 modules
-  CC      drivers/gpu/arm/b_r26p0/tests/kutf/kutf.mod.o
-  GZIP    arch/arm64/boot/Image.gz
-  LD [M]  drivers/gpu/arm/b_r26p0/tests/kutf/kutf.ko
+  HOSTCC  scripts/genksyms/lex.lex.o
+  HOSTCC  scripts/dtc/treesource.o
+  HOSTCC  scripts/dtc/srcpos.o
+  HOSTCC  scripts/dtc/checks.o
+  HOSTCC  scripts/dtc/util.o
+  SHIPPED scripts/dtc/dtc-lexer.lex.c
+  SHIPPED scripts/dtc/dtc-parser.tab.h
+  SHIPPED scripts/dtc/dtc-parser.tab.c
+  HOSTCC  scripts/dtc/dtc-lexer.lex.o
+  HOSTCC  scripts/dtc/dtc-parser.tab.o
+  HOSTLD  scripts/dtc/dtc
+  HOSTLD  scripts/genksyms/genksyms
+make: *** [Makefile:575: scripts] Error 2

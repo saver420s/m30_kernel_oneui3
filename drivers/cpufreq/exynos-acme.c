@@ -1105,12 +1105,30 @@ static __init int init_domain(struct exynos_cpufreq_domain *domain,
 #ifndef CONFIG_EXYNOS_HOTPLUG_GOVERNOR
 	if (!of_property_read_u32(dn, "max-freq", &val))
 		domain->max_freq = max(domain->max_freq, val);
+	/* EurekaM30: Override max freq for overclock */
+	if (domain->id == 0)
+		domain->max_freq = 1690000;
+	else if (domain->id == 1)
+		domain->max_freq = 2080000;
 #endif
 	if (!of_property_read_u32(dn, "min-freq", &val))
 		domain->min_freq = max(domain->min_freq, val);
+	/* EurekaM30: Override min freq */
+	if (domain->id == 0)
+		domain->min_freq = 208000;
+	else if (domain->id == 1)
+		domain->min_freq = 208000;
 
 	domain->boot_freq = cal_dfs_get_boot_freq(domain->cal_id);
 	domain->resume_freq = cal_dfs_get_resume_freq(domain->cal_id);
+	/* EurekaM30: Override boot/resume freq */
+	if (domain->id == 0) {
+		domain->boot_freq = 1690000;
+		domain->resume_freq = 1144000;
+	} else if (domain->id == 1) {
+		domain->boot_freq = 2080000;
+		domain->resume_freq = 1560000;
+	}
 
 	/* Initialize freq boost */
 	if (domain->boost_supported) {
