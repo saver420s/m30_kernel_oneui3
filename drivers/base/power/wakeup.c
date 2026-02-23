@@ -25,6 +25,9 @@
  * if wakeup events are registered during or immediately before the transition.
  */
 bool events_check_enabled __read_mostly;
+char list_wl_search[2048 + sizeof("") + 5];
+bool wl_blocker_active = false;
+bool wl_blocker_debug = false;
 
 /* First wakeup IRQ seen by the kernel in the last cycle. */
 unsigned int pm_wakeup_irq __read_mostly;
