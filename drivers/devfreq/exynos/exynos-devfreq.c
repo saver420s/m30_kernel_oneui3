@@ -36,6 +36,7 @@
 #include "../../soc/samsung/acpm/acpm_ipc.h"
 
 #include "../governor.h"
+#include <linux/devfreq_boost.h>
 
 #ifdef CONFIG_EXYNOS_WD_DVFS
 static struct srcu_notifier_head exynos_wd_notifier;
@@ -847,6 +848,9 @@ static int exynos_devfreq_parse_dt(struct device_node *np, struct exynos_devfreq
 
 	if (!strcmp(devfreq_type, "mif")) {
 		data->devfreq_type = DEVFREQ_MIF;
+#ifdef CONFIG_DEVFREQ_BOOST
+		devfreq_register_boost_device(DEVFREQ_EXYNOS_MIF, data->devfreq);
+#endif
 		data->pm_qos_class = PM_QOS_BUS_THROUGHPUT;
 		data->pm_qos_class_max = PM_QOS_BUS_THROUGHPUT_MAX;
 		data->ess_flag = ESS_FLAG_MIF;

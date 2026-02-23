@@ -178,4 +178,14 @@ int "Input boost duration"
 default "100"
 help
   Input boost duration in milliseconds for all boostable devices.
+config DEVFREQ_WAKE_BOOST_DURATION_MS
+int "Wake boost duration"
+default "1000"
+help
+  Wake boost duration in milliseconds for all boostable devices.
+config DEVFREQ_EXYNOS_MIF_BOOST_FREQ
+int "Boost freq for Exynos MIF device"
+default "0"
+help
+  Boost frequency for the Exynos MIF (DDR) bus.
 endif

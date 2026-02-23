@@ -219,7 +219,7 @@ static void devfreq_input_boost(struct work_struct *work)
 	}
 
 	queue_delayed_work(b->wq, &b->input_unboost,
-		msecs_to_jiffies(CONFIG_DEVFREQ_INPUT_BOOST_DURATION_MS));
+		msecs_to_jiffies(100));
 }
 
 static void devfreq_input_unboost(struct work_struct *work)
@@ -285,7 +285,7 @@ static int fb_notifier_cb(struct notifier_block *nb,
 
 		for (i = 0; i < DEVFREQ_MAX; i++)
 			__devfreq_boost_kick_max(d->devices + i,
-				CONFIG_DEVFREQ_WAKE_BOOST_DURATION_MS);
+				1000);
 	} else {
 		devfreq_unboost_all(d);
 	}
@@ -385,6 +385,7 @@ static struct input_handler devfreq_boost_input_handler = {
 static int __init devfreq_boost_init(void)
 {
 	struct df_boost_drv *d;
+	pr_info("devfreq_boost: init starting\n");
 	struct workqueue_struct *wq;
 	int i, ret;
 
@@ -411,7 +412,7 @@ static int __init devfreq_boost_init(void)
 	}
 
 	d->devices[DEVFREQ_EXYNOS_MIF].boost_freq =
-		CONFIG_DEVFREQ_EXYNOS_MIF_BOOST_FREQ;
+		0;
 
 	devfreq_boost_input_handler.private = d;
 	ret = input_register_handler(&devfreq_boost_input_handler);
@@ -440,4 +441,4 @@ free_d:
 	kfree(d);
 	return ret;
 }
-subsys_initcall(devfreq_boost_init);
+late_initcall(devfreq_boost_init);

@@ -184,6 +184,8 @@ struct devfreq {
 	unsigned long last_stat_updated;
 
 	bool disabled_pm_qos;
+	bool is_boost_device;
+	bool max_boost;
 };
 
 #if defined(CONFIG_PM_DEVFREQ)
@@ -201,6 +203,7 @@ extern void devm_devfreq_remove_device(struct device *dev,
 
 /* Supposed to be called by PM callbacks */
 extern int devfreq_suspend_device(struct devfreq *devfreq);
+extern int update_devfreq(struct devfreq *devfreq);
 extern int devfreq_resume_device(struct devfreq *devfreq);
 
 /* Helper functions for devfreq user device driver with OPP. */

@@ -8,11 +8,11 @@
   CALL    scripts/checksyscalls.sh
 make[1]: 'include/generated/vdso-offsets.h' is up to date.
   CHK     include/generated/compile.h
-  CC      drivers/cpufreq/cpufreq_smartmax_eps.o
+  CC      drivers/devfreq/devfreq_boost.o
   CHK     kernel/config_data.h
 ANDROID_VERSION is 990000
 ANDROID_PLATFORM_VERSION is 99
-  AR      drivers/cpufreq/built-in.o
+  AR      drivers/devfreq/built-in.o
 ANDROID_VERSION is 990000
 ANDROID_PLATFORM_VERSION is 99
   AR      drivers/built-in.o
@@ -31,7 +31,7 @@ ANDROID_PLATFORM_VERSION is 99
   SORTEX  vmlinux
   SYSMAP  System.map
   FIPS : Generating hmac of fmp and updating vmlinux... 
-HMAC for "fmp" module is: b'bbcdf94d96a96fa25a4be7463cf24a387d5c743c2f5625ec87b615b2e6d585e6'
+HMAC for "fmp" module is: b'8b412c3a174e6eb2c428084edd65eddd16931ec7f67de5e4b16d6b62436922a3'
 FIPS integrity procedure has been finished for fmp
   OBJCOPY arch/arm64/boot/Image
   Building modules, stage 2.
