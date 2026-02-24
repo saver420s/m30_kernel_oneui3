@@ -13,6 +13,7 @@
 struct sec_ts_data *tsp_info;
 
 #include "sec_ts.h"
+#include <linux/pm_qos.h>
 
 #ifdef CONFIG_SECURE_TOUCH
 enum subsystem {
@@ -1372,6 +1373,18 @@ static void sec_ts_read_event(struct sec_ts_data *ts)
 		remain_event_count--;
 	} while (remain_event_count >= 0);
 
+	/* EurekaM30: Low latency touch mode */
+	if (ts->touch_count > 0) {
+		if (!ts->low_latency_req.dev)
+			dev_pm_qos_add_ancestor_request(&ts->client->dev,
+				&ts->low_latency_req,
+				DEV_PM_QOS_RESUME_LATENCY, 100);
+	} else {
+		if (ts->low_latency_req.dev) {
+			dev_pm_qos_remove_request(&ts->low_latency_req);
+			ts->low_latency_req.dev = NULL;
+		}
+	}
 	input_sync(ts->input_dev);
 }
 

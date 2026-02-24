@@ -619,6 +619,7 @@ struct sec_ts_coordinate {
 
 struct sec_ts_data {
 	u32 isr_pin;
+	struct dev_pm_qos_request low_latency_req;
 
 	u32 crc_addr;
 	u32 fw_addr;
