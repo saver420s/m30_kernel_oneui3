@@ -802,6 +802,36 @@ static int kbase_api_set_flags(struct kbase_file *kfile,
 	return err;
 }
 
+struct task_struct *kbase_create_realtime_thread(struct kbase_device *kbdev,
+	int (*threadfn)(void *data), void *data, const char namefmt[])
+{
+	unsigned int i;
+	cpumask_t mask = { CPU_BITS_NONE };
+	static const struct sched_param param = {
+		.sched_priority = KBASE_RT_THREAD_PRIO,
+	};
+	struct task_struct *ret = kthread_create(kthread_worker_fn, data, namefmt);
+	if (!IS_ERR(ret)) {
+		for (i = KBASE_RT_THREAD_CPUMASK_MIN; i <= KBASE_RT_THREAD_CPUMASK_MAX; i++)
+			cpumask_set_cpu(i, &mask);
+		kthread_bind_mask(ret, &mask);
+		wake_up_process(ret);
+		if (sched_setscheduler(ret, SCHED_FIFO, &param))
+			dev_warn(kbdev->dev, "%s not set to RT prio", namefmt);
+		else
+			dev_dbg(kbdev->dev, "%s set to RT prio: %i",
+				namefmt, param.sched_priority);
+	}
+	return ret;
+}
+
+static int kbase_api_apc_request(struct kbase_file *kfile,
+		struct kbase_ioctl_apc_request *apc)
+{
+	kbase_pm_apc_request(kfile->kbdev, apc->dur_usec);
+	return 0;
+}
+
 static int kbase_api_job_submit(struct kbase_context *kctx,
 		struct kbase_ioctl_job_submit *submit)
 {
@@ -1513,6 +1543,11 @@ static long kbase_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 
 	/* Normal ioctls */
 	switch (cmd) {
+	case KBASE_IOCTL_APC_REQUEST:
+		KBASE_HANDLE_IOCTL_IN(KBASE_IOCTL_APC_REQUEST,
+				kbase_api_apc_request,
+				struct kbase_ioctl_apc_request,
+				kfile);
 	case KBASE_IOCTL_JOB_SUBMIT:
 		KBASE_HANDLE_IOCTL_IN(KBASE_IOCTL_JOB_SUBMIT,
 				kbase_api_job_submit,

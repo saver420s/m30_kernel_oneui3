@@ -127,6 +127,10 @@ fail_pm_powerup:
 fail_reset_gpu_init:
 	kbase_hwaccess_pm_term(kbdev);
 
+	err = kbase_pm_apc_init(kbdev);
+	if (err)
+		return err;
+
 	return err;
 }
 
@@ -235,6 +239,7 @@ static void kbase_device_term_partial(struct kbase_device *kbdev,
 
 void kbase_device_term(struct kbase_device *kbdev)
 {
+	kbase_pm_apc_term(kbdev);
 	kbase_device_term_partial(kbdev, ARRAY_SIZE(dev_init));
 	kbasep_js_devdata_halt(kbdev);
 	kbase_mem_halt(kbdev);

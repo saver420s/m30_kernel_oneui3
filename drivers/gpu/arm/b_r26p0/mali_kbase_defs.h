@@ -44,6 +44,12 @@
 #include <protected_mode_switcher.h>
 
 #include <linux/atomic.h>
+#define KBASE_RT_THREAD_PRIO (2)
+#define KBASE_RT_THREAD_CPUMASK_MIN (0)
+#define KBASE_RT_THREAD_CPUMASK_MAX (3)
+#define KBASE_APC_MIN_DUR_USEC (100)
+#define KBASE_APC_MAX_DUR_USEC (4000)
+
 #include <linux/mempool.h>
 #include <linux/slab.h>
 #include <linux/file.h>
@@ -1196,6 +1202,17 @@ struct kbase_device {
 #endif
 
         struct kobject *proc_sysfs_node;
+
+    struct {
+        struct kthread_worker worker;
+        struct task_struct *thread;
+        struct kthread_work power_on_work;
+        struct kthread_work power_off_work;
+        ktime_t end_ts;
+        struct hrtimer timer;
+        bool pending;
+        struct mutex lock;
+    } apc;
 };
 
 /**

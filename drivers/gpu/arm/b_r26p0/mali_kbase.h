@@ -632,3 +632,14 @@ int kbase_io_history_resize(struct kbase_io_history *h, u16 new_size);
 #endif /* CONFIG_DEBUG_FS */
 
 #endif
+
+/**
+ * kbase_create_realtime_thread - Create a realtime thread with an appropriate coremask
+ * @kbdev: The kbase device structure
+ * @threadfn: Thread function
+ * @data: Data to pass to thread function
+ * @namefmt: Thread name
+ * Return: task_struct on success, ERR_PTR on failure
+ */
+struct task_struct * kbase_create_realtime_thread(struct kbase_device *kbdev,
+int (*threadfn)(void *data), void *data, const char namefmt[]);

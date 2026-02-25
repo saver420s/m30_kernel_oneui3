@@ -242,3 +242,23 @@ void kbase_pm_handle_gpu_lost(struct kbase_device *kbdev);
 #endif /* CONFIG_MALI_ARBITER_SUPPORT */
 
 #endif /* _KBASE_PM_H_ */
+
+/**
+ * kbase_pm_apc_init - Initialize Async Power Control (APC)
+ * @kbdev: The kbase device structure for the device
+ * Return: 0 on success, error code on failure
+ */
+int kbase_pm_apc_init(struct kbase_device *kbdev);
+
+/**
+ * kbase_pm_apc_term - Handle APC termination
+ * @kbdev: The kbase device structure for the device
+ */
+void kbase_pm_apc_term(struct kbase_device *kbdev);
+
+/**
+ * kbase_pm_apc_request - Handle APC power on request
+ * @kbdev: The kbase device structure for the device
+ * @dur_usec: Duration in microseconds to keep the GPU powered on
+ */
+void kbase_pm_apc_request(struct kbase_device *kbdev, u32 dur_usec);
