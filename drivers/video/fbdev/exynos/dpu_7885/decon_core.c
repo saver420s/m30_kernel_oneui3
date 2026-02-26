@@ -28,6 +28,7 @@
 #include <linux/exynos_iovmm.h>
 #include <linux/bug.h>
 #include <linux/of_address.h>
+extern void set_gpu_policy(bool is_suspend);
 #include <linux/debugfs.h>
 #include <linux/pinctrl/consumer.h>
 #include <video/mipi_display.h>
@@ -751,6 +752,7 @@ static int decon_blank(int blank_mode, struct fb_info *info)
 blank_exit:
 	decon_hiber_trig_reset(decon);	/* decon_hiber_block_exit call this, but we still need it */
 	decon_hiber_unblock(decon);
+	set_gpu_policy(blank_mode != FB_BLANK_UNBLANK);
 	decon_info("%s - blank_mode: %d, %d\n", __func__, blank_mode, ret);
 	return ret;
 }
