@@ -23,7 +23,6 @@
 
 #include <linux/mmc/card.h>
 #include <linux/mmc/host.h>
-#include <linux/sched/rt.h>
 #include "queue.h"
 #include "../host/cmdq_hci.h"
 
@@ -93,7 +92,7 @@ static inline void mmc_cmdq_ready_wait(struct mmc_host *host,
 	 * 4. cmdq state shouldn't be in error state.
 	 * 5. free tag available to process the new request.
 	 */
-	wait_event(ctx->wait, kthread_should_stop()
+	wait_event_interruptible(ctx->wait, kthread_should_stop()
 		|| (mmc_peek_request(mq) &&
 		!((mq->cmdq_req_peeked->cmd_flags & (REQ_FLUSH | REQ_DISCARD))
 		  && test_bit(CMDQ_STATE_DCMD_ACTIVE, &ctx->curr_state))
@@ -144,12 +143,6 @@ static int mmc_queue_thread(void *d)
 {
 	struct mmc_queue *mq = d;
 	struct request_queue *q = mq->queue;
-	struct sched_param scheduler_params = {0};
-
-	if (mq->card->type != MMC_TYPE_SD) {
-		scheduler_params.sched_priority = 1;
-		sched_setscheduler(current, SCHED_FIFO, &scheduler_params);
-	}
 
 	current->flags |= PF_MEMALLOC;
 
