@@ -32,6 +32,7 @@
 static const struct kbase_pm_policy *const all_policy_list[] = {
 #ifdef CONFIG_MALI_NO_MALI
 	&kbase_pm_always_on_policy_ops,
+	&kbase_pm_adaptive_policy_ops,
 	&kbase_pm_coarse_demand_policy_ops,
 #if !MALI_CUSTOMER_RELEASE
 	&kbase_pm_always_on_demand_policy_ops,
@@ -47,7 +48,7 @@ static const struct kbase_pm_policy *const all_policy_list[] = {
 
 void kbase_pm_policy_init(struct kbase_device *kbdev)
 {
-	kbdev->pm.backend.pm_current_policy = all_policy_list[0];
+	kbdev->pm.backend.pm_current_policy = all_policy_list[1];
 	kbdev->pm.backend.pm_current_policy->init(kbdev);
 }
 
