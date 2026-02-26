@@ -69,7 +69,9 @@ root_schedtune = {
  *    implementation especially for the computation of the per-CPU boost
  *    value
  */
-#define BOOSTGROUPS_COUNT 4
+bool schedtune_initialized = false;
+
+#define BOOSTGROUPS_COUNT 8
 
 /* Array of configured boostgroups */
 static struct schedtune *allocated_group[BOOSTGROUPS_COUNT] = {
@@ -110,7 +112,7 @@ schedtune_cpu_update(int cpu)
 
 	/* The root boost group is always active */
 	boost_max = bg->group[0].boost;
-	for (idx = 1; idx < BOOSTGROUPS_COUNT; ++idx) {
+	for (idx = 0; idx < BOOSTGROUPS_COUNT; ++idx) {
 		/*
 		 * A boost group affects a CPU only if it has
 		 * RUNNABLE tasks on that CPU
@@ -203,7 +205,10 @@ void schedtune_enqueue_task(struct task_struct *p, int cpu)
 	idx = st->idx;
 	rcu_read_unlock();
 
-	schedtune_tasks_update(p, cpu, idx, 1);
+	#define ENQUEUE_TASK  1
+#define DEQUEUE_TASK -1
+
+schedtune_tasks_update(p, cpu, idx, ENQUEUE_TASK);
 }
 
 /*
@@ -264,6 +269,28 @@ int schedtune_cpu_boost(int cpu)
 	return bg->boost_max;
 }
 
+static inline int schedtune_adj_ta(struct task_struct *p)
+{
+	struct schedtune *st;
+	char name_buf[NAME_MAX + 1];
+	int adj = p->signal->oom_score_adj;
+
+	if (adj != 0)
+		return 0;
+
+	if (p->flags & PF_KTHREAD)
+		return 0;
+
+	st = task_schedtune(p);
+	cgroup_name(st->css.cgroup, name_buf, sizeof(name_buf));
+	if (!strncmp(name_buf, "top-app", strlen("top-app"))) {
+		pr_debug("top app is %s with adj %i\n", p->comm, adj);
+		return 1;
+	}
+
+	return 0;
+}
+
 int schedtune_task_boost(struct task_struct *p)
 {
 	struct schedtune *st;
@@ -272,7 +299,7 @@ int schedtune_task_boost(struct task_struct *p)
 	/* Get task boost value */
 	rcu_read_lock();
 	st = task_schedtune(p);
-	task_boost = st->boost;
+	task_boost = max(st->boost, schedtune_adj_ta(p));
 	rcu_read_unlock();
 
 	return task_boost;
@@ -292,7 +319,10 @@ boost_write(struct cgroup_subsys_state *css, struct cftype *cft,
 {
 	struct schedtune *st = css_st(css);
 
-	if (boost < 0 || boost > 100)
+	if (!strcmp(css->cgroup->kn->name, "top-app"))
+		boost = 1;
+
+	if (boost < -100 || boost > 100)
 		return -EINVAL;
 
 	st->boost = boost;
@@ -347,6 +377,9 @@ schedtune_init(void)
 
 	pr_info("  schedtune configured to support %d boost groups\n",
 		BOOSTGROUPS_COUNT);
+
+	schedtune_initialized = true;
+
 	return 0;
 }
 
